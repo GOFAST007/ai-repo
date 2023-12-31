@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+---
+<article itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <h1 itemprop="headline">{{ title | markdown | safe }}</h1>
+    <p class="meta">
+      Published <time datetime="{{ date | htmlDateString }}" itemprop="datePublished">{{ date | readableDate }}</time>
+      {% if updated %}
+        · Updated <time datetime="{{ updated | htmlDateString }}" itemprop="dateModified">{{ updated | readableDate }}</time>
+      {% endif %}
+      {% if tags %}
+        · Tagged with {% for tag in tags %}{% if not 'io' in tag and not 'Node.js' in tag %}
+          <a href="/features/tags/{{ tag | slug }}" class="tag">{{ tag }}</a>
+        {% endif %}{% endfor %}
+      {% endif %}
+    </p>
+  </header>
+  <div itemprop="articleBody">
+    {{ content | safe }}
+  </div>
+  <footer>
+    <div>
+      {% if avatars %}
+        {% for avatar in avatars %}
+          <picture>
+            <source srcset="/_img/avatars/{{ avatar }}.avif, /_img/avatars/{{ avatar }}@2x.avif 2x" type="image/avif"></source>
+            <img src="/_img/avatars/{{ avatar }}.jpg" srcset="/_img/avatars/{{ avatar }}@2x.jpg 2x" alt="" width="96" height="96" loading="lazy">
+          </picture>
+        {% endfor %}
+      {% endif %}
+      <p>Posted by {{ author | markdown | safe }}.</p>
+    </div>
+    {% if tweet %}
+      <a href="https://twitter.com/v8js/status/{{ tweet }}" class="retweet">Retweet this article!</a>
+    {% endif %}
+  </footer>
+</article>
